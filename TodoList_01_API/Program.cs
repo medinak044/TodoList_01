@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using TodoList_01_API.Data;
+using TodoList_01_API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,15 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer_Connection"));
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection"));
+});
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
