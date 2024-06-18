@@ -3,7 +3,7 @@ using TodoList_01_API.Models;
 
 namespace TodoList_01_API.Data;
 
-public class DbInitializer
+public class DbInitializer: IDbInitializer
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
