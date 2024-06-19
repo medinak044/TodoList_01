@@ -25,7 +25,7 @@ public class TodoListController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpGet("GetAllTodoLists")]
+    [HttpGet($"{nameof(GetAllTodoLists)}")]
     public async Task<ActionResult> GetAllTodoLists()
     {
         var result = await _unitOfWork.TodoLists.GetAllAsync();
@@ -33,7 +33,7 @@ public class TodoListController : ControllerBase
     }
 
     // A single default TodoList should always be assigned to a newly created user
-    [HttpPost(nameof(CreateTodoList))]
+    [HttpPost($"{nameof(CreateTodoList)}")]
     public async Task<ActionResult> CreateTodoList(TodoListReqDto todoListForm)
     {
         if (!ModelState.IsValid)
