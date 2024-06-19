@@ -15,5 +15,4 @@ public class AppDbContext: IdentityDbContext
     public DbSet<TodoList> TodoLists { get; set; }
     public DbSet<TodoTask> TodoTasks { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-    public DbSet<Workspace> Workspaces { get; set; }
 }

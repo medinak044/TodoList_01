@@ -8,6 +8,8 @@ using System.Text.Json.Serialization;
 using TodoList_01_API.Data;
 using TodoList_01_API.Helpers;
 using TodoList_01_API.Models;
+using TodoList_01_API.Repository.IRepository;
+using TodoList_01_API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // Many to many relationships will go into the entity and get stuck in a loop
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

@@ -20,7 +20,6 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
     public ITodoListRepository TodoLists => new TodoListRepository(_context);
     public ITodoTaskRepository TodoTasks => new TodoTaskRepository(_context);
-    public IWorkspaceRepository Workspaces => new WorkspaceRepository(_context);
 
     // Used for .NET session (cookie) authentication
     public string GetCurrentUserId()

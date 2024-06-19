@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoList_01_API.Data;
 
@@ -11,9 +12,11 @@ using TodoList_01_API.Data;
 namespace TodoList_01_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240619223012_RefreshTokens")]
+    partial class RefreshTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,17 +282,17 @@ namespace TodoList_01_API.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("WorkspaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("WorkspaceId");
 
                     b.ToTable("TodoLists");
                 });
@@ -318,6 +321,22 @@ namespace TodoList_01_API.Migrations
                     b.HasIndex("TodoListId");
 
                     b.ToTable("TodoTasks");
+                });
+
+            modelBuilder.Entity("TodoList_01_API.Models.Workspace", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Workspaces");
                 });
 
             modelBuilder.Entity("TodoList_01_API.Models.AppUser", b =>
@@ -392,13 +411,11 @@ namespace TodoList_01_API.Migrations
 
             modelBuilder.Entity("TodoList_01_API.Models.TodoList", b =>
                 {
-                    b.HasOne("TodoList_01_API.Models.AppUser", "Owner")
+                    b.HasOne("TodoList_01_API.Models.Workspace", null)
                         .WithMany("TodoLists")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("TodoList_01_API.Models.TodoTask", b =>
@@ -410,12 +427,23 @@ namespace TodoList_01_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TodoList_01_API.Models.Workspace", b =>
+                {
+                    b.HasOne("TodoList_01_API.Models.AppUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("TodoList_01_API.Models.TodoList", b =>
                 {
                     b.Navigation("TodoTasks");
                 });
 
-            modelBuilder.Entity("TodoList_01_API.Models.AppUser", b =>
+            modelBuilder.Entity("TodoList_01_API.Models.Workspace", b =>
                 {
                     b.Navigation("TodoLists");
                 });

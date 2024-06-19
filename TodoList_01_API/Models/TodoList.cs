@@ -11,8 +11,8 @@ public class TodoList
     public DateTime DateCreated { get; set; }
 
 
-    [ForeignKey(nameof(Workspace))]
-    public string WorkspaceId { get; set; }
-    //public Workspace Workspace { get; set; }
+    [ForeignKey(nameof(AppUser))]
+    public string OwnerId { get; set; }
+    public AppUser? Owner { get; set; }
     public ICollection<TodoTask>? TodoTasks { get; set; }
 }

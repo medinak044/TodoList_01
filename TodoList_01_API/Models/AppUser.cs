@@ -6,4 +6,5 @@ public class AppUser: IdentityUser
 {
     // Use email as username
     public DateTime DateCreated { get; set; }
+    public ICollection<TodoList>? TodoLists { get; set; }
 }
